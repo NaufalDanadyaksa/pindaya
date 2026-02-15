@@ -2,9 +2,8 @@
 
 import { notFound, useParams } from "next/navigation";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import dynamic from "next/dynamic";
-import { ArrowLeft, RotateCcw } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 import { getCulturalObject } from "@/data/culturalObjects";
 import InfoPanel from "@/components/InfoPanel";
 import ChatPanel from "@/components/ChatPanel";
@@ -33,21 +32,6 @@ export default function ResultPage() {
   return (
     <div className="min-h-screen px-4 py-8">
       <div className="max-w-7xl mx-auto">
-        {/* Back Button */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="mb-6"
-        >
-          <Link
-            href="/explore"
-            className="inline-flex items-center gap-2 text-secondary/50 hover:text-accent text-sm transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            {t.result.backToExplore}
-          </Link>
-        </motion.div>
-
         {/* Main Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* 3D Viewer */}

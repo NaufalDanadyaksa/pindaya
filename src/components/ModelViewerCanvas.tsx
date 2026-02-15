@@ -123,9 +123,9 @@ function Scene({ object }: { object: CulturalObject }) {
       <directionalLight
         position={[-5, 3, -3]}
         intensity={0.5}
-        color="#C89B3C"
+        color="#D4AF37"
       />
-      <directionalLight position={[0, -3, 0]} intensity={0.3} color="#7A3E3E" />
+      <directionalLight position={[0, -3, 0]} intensity={0.3} color="#8D6E63" />
       <hemisphereLight args={["#ffffff", "#444444", 0.4]} />
 
       {object.modelUrl ? (

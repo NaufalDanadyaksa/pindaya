@@ -44,7 +44,7 @@ export const culturalObjects: CulturalObject[] = [
     origin: { en: "Yogyakarta Sultanate", id: "Kesultanan Yogyakarta" },
     modelUrl: "/models/batik_parang.glb",
     modelType: "torus",
-    modelColor: "#7A3E3E",
+    modelColor: "#8D6E63",
   },
   {
     id: "keris-pusaka",
@@ -70,7 +70,7 @@ export const culturalObjects: CulturalObject[] = [
     origin: { en: "Java, Indonesia", id: "Jawa, Indonesia" },
     modelUrl: "/models/keris.glb",
     modelType: "octahedron",
-    modelColor: "#8B8680",
+    modelColor: "#8D7B68",
   },
   {
     id: "blangkon",
@@ -96,7 +96,7 @@ export const culturalObjects: CulturalObject[] = [
     origin: { en: "Yogyakarta & Surakarta", id: "Yogyakarta & Surakarta" },
     modelUrl: "/models/blangkon.glb",
     modelType: "dodecahedron",
-    modelColor: "#C89B3C",
+    modelColor: "#D4AF37",
   },
   {
     id: "gamelan",

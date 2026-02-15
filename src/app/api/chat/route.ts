@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { GoogleGenAI } from "@google/genai";
+import Groq from "groq-sdk";
 
 /* ── Mock responses (fallback) ── */
 function getMockResponse(
@@ -50,7 +50,7 @@ function getMockResponse(
 
 /* ── Rate limit ── */
 let lastRequestTime = 0;
-const MIN_INTERVAL_MS = 5000;
+const MIN_INTERVAL_MS = 2000; // Groq is extremely fast
 
 /* ── API Route ── */
 export async function POST(req: NextRequest) {
@@ -79,9 +79,8 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.GROQ_API_KEY;
 
-  // No API key → mock mode
   if (!apiKey || apiKey.trim() === "") {
     return NextResponse.json({
       reply: getMockResponse(message, objectName, objectData, locale),
@@ -90,7 +89,6 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    // Server-side rate limiting
     const now = Date.now();
     const wait = MIN_INTERVAL_MS - (now - lastRequestTime);
     if (wait > 0) {
@@ -98,54 +96,51 @@ export async function POST(req: NextRequest) {
     }
     lastRequestTime = Date.now();
 
-    // System instruction
     const systemInstruction =
       locale === "id"
         ? `Kamu ahli budaya Yogyakarta. Objek: "${objectName}". Info: ${objectData.description} Sejarah: ${objectData.history} Filosofi: ${objectData.philosophy} Makna: ${objectData.culturalMeaning}. Jawab Bahasa Indonesia, ramah, ringkas (2-3 kalimat).`
         : `You are a Yogyakarta cultural expert. Object: "${objectName}". Info: ${objectData.description} History: ${objectData.history} Philosophy: ${objectData.philosophy} Meaning: ${objectData.culturalMeaning}. Be friendly, concise (2-3 sentences).`;
 
-    // Build contents for Gemini API
-    const contents: { role: string; parts: { text: string }[] }[] = [];
+    const messages: {
+      role: "system" | "user" | "assistant";
+      content: string;
+    }[] = [];
 
-    // Add chat history (last 6 messages)
+    messages.push({ role: "system", content: systemInstruction });
+
+    // Add chat history (map from prev format if needed, but assuming standard role/content)
     if (Array.isArray(history)) {
       for (const msg of history.slice(-6)) {
-        contents.push({
-          role: msg.role === "assistant" ? "model" : "user",
-          parts: [{ text: msg.content }],
+        messages.push({
+          role: msg.role === "assistant" ? "assistant" : "user",
+          content: msg.content,
         });
       }
     }
 
-    // Add current message (prepend system instruction on first message)
-    const prompt =
-      contents.length === 0 ? `${systemInstruction}\n\n${message}` : message;
-    contents.push({ role: "user", parts: [{ text: prompt }] });
+    messages.push({ role: "user", content: message });
 
-    // New official SDK (best practice from quickstart)
-    const ai = new GoogleGenAI({ apiKey });
+    const groq = new Groq({ apiKey });
 
-    const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash",
-      contents,
-      config: {
-        maxOutputTokens: 250,
-        temperature: 0.7,
-      },
+    const completion = await groq.chat.completions.create({
+      messages,
+      model: "llama-3.3-70b-versatile",
+      temperature: 0.7,
+      max_tokens: 250,
+      stream: false,
     });
 
     const reply =
-      response.text ||
+      completion.choices[0]?.message?.content ||
       (locale === "id" ? "Maaf, coba lagi." : "Sorry, please try again.");
 
-    return NextResponse.json({ reply, mode: "gemini" });
+    return NextResponse.json({ reply, mode: "groq" });
   } catch (error: unknown) {
     console.error(
-      "Gemini API error, falling back to mock:",
+      "Groq API error, falling back to mock:",
       error instanceof Error ? error.message : error,
     );
 
-    // Graceful fallback to mock
     const fallback = getMockResponse(message, objectName, objectData, locale);
     return NextResponse.json({ reply: fallback, mode: "mock" });
   }

@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { GoogleGenAI } from "@google/genai";
+import Groq from "groq-sdk";
 import { culturalObjects } from "@/data/culturalObjects";
 
 /* ── Rate limit ── */
 let lastScanTime = 0;
-const MIN_INTERVAL_MS = 4000;
+const MIN_INTERVAL_MS = 2000; // Groq is fast, but let's be safe
 
 /* ── Object list for prompt ── */
 const objectList = culturalObjects
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid request" }, { status: 400 });
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.GROQ_API_KEY;
 
   if (!apiKey || !imageBase64) {
     return NextResponse.json({
@@ -59,32 +59,31 @@ export async function POST(req: NextRequest) {
   lastScanTime = Date.now();
 
   try {
-    // New official SDK (best practice from quickstart)
-    const ai = new GoogleGenAI({ apiKey });
+    const groq = new Groq({ apiKey });
 
-    const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash",
-      contents: [
+    const completion = await groq.chat.completions.create({
+      messages: [
         {
           role: "user",
-          parts: [
-            { text: PROMPT },
+          content: [
+            { type: "text", text: PROMPT },
             {
-              inlineData: {
-                mimeType,
-                data: imageBase64,
+              type: "image_url",
+              image_url: {
+                url: `data:${mimeType};base64,${imageBase64}`,
               },
             },
           ],
         },
       ],
-      config: {
-        maxOutputTokens: 100,
-        temperature: 0.1,
-      },
+      model: "meta-llama/llama-4-scout-17b-16e-instruct",
+      temperature: 0.1,
+      max_tokens: 100,
+      stream: false,
+      response_format: { type: "json_object" },
     });
 
-    const text = response.text?.trim() || "";
+    const text = completion.choices[0]?.message?.content?.trim() || "";
 
     if (!text) {
       return NextResponse.json({
@@ -95,14 +94,8 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Parse JSON (handle possible markdown wrapping)
-    let jsonStr = text;
-    if (text.includes("```")) {
-      const match = text.match(/```(?:json)?\s*([\s\S]*?)```/);
-      if (match) jsonStr = match[1].trim();
-    }
-
-    const parsed = JSON.parse(jsonStr);
+    // Parse JSON
+    const parsed = JSON.parse(text);
 
     // Validate id exists in database
     const obj = culturalObjects.find((o) => o.id === parsed.id);
@@ -111,7 +104,7 @@ export async function POST(req: NextRequest) {
         id: obj.id,
         name: obj.name.en,
         confidence: Math.min(1, Math.max(0, parsed.confidence || 0.5)),
-        mode: "gemini",
+        mode: "groq",
       });
     }
 
@@ -126,7 +119,7 @@ export async function POST(req: NextRequest) {
         id: nameMatch.id,
         name: nameMatch.name.en,
         confidence: parsed.confidence || 0.4,
-        mode: "gemini",
+        mode: "groq",
       });
     }
 
@@ -134,7 +127,7 @@ export async function POST(req: NextRequest) {
       id: "",
       name: "",
       confidence: 0,
-      mode: "gemini",
+      mode: "groq",
     });
   } catch (error: unknown) {
     console.error(

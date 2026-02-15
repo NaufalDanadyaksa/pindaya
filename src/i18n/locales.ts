@@ -11,11 +11,11 @@ export const locales = {
     },
     // Hero / Landing
     hero: {
-      badge: "✨ Discover Yogyakarta's Heritage",
-      title: "Explore Jogja",
-      titleHighlight: "Culture",
+      badge: "✨ Unlocking Yogyakarta's Cultural Through Technology",
+      title: "Pin",
+      titleHighlight: "daya",
       subtitle:
-        "Scan cultural objects, interact with 3D models, and learn from an AI cultural expert. Your gateway to Yogyakarta's rich heritage.",
+        "Pindai Budaya Yogyakarta — Scan cultural objects, interact with 3D models, and learn from an AI cultural expert.",
       scanBtn: "Scan Object",
       exploreBtn: "Explore Culture",
       statsObjects: "Cultural Objects",
@@ -34,7 +34,7 @@ export const locales = {
     scan: {
       title: "Scan Cultural Object",
       subtitle:
-        "Upload an image of a cultural object to identify it and explore its 3D model",
+        "Upload an image or use your camera to identify cultural objects",
       uploadTab: "Upload Image",
       cameraTab: "Use Camera",
       dropzone: "Drag & drop an image here, or click to browse",
@@ -46,6 +46,13 @@ export const locales = {
       cameraPlaceholder:
         "Camera feature coming soon. Please use image upload for now.",
       tryUpload: "Try Image Upload",
+      cameraCapture: "Capture & Scan",
+      cameraStart: "Start Camera",
+      cameraError: "Could not access camera. Please allow camera permission.",
+      redirecting: "Redirecting to result...",
+      confidence: "Confidence",
+      notFound: "No matching cultural object found. Try a clearer image.",
+      lowConfidence: "Result might not be accurate. Try scanning again?",
     },
     // Result Page
     result: {
@@ -65,13 +72,13 @@ export const locales = {
       placeholder: "Ask about this cultural object...",
       send: "Send",
       greeting:
-        "Hello! 👋 I'm your Jogja cultural expert. Ask me anything about",
+        "Hello! 👋 I'm your Pindaya cultural expert. Ask me anything about",
       thinking: "Thinking...",
     },
     // Explore Page
     explore: {
-      title: "Explore Jogja Culture",
-      subtitle: "Discover the diverse cultural heritage of Yogyakarta",
+      title: "Explore Pindaya",
+      subtitle: "Unlocking Yogyakarta's Cultural Through Technology",
       all: "All",
       viewDetail: "View Detail",
       noResults: "No objects found in this category.",
@@ -86,8 +93,7 @@ export const locales = {
     },
     // Footer
     footer: {
-      tagline:
-        "Discover the cultural heritage of Yogyakarta through interactive 3D exploration.",
+      tagline: "Pindaya — Unlocking Yogyakarta's Cultural Through Technology.",
       quickLinks: "Quick Links",
       contact: "Contact",
       rights: "All rights reserved.",
@@ -104,11 +110,11 @@ export const locales = {
     },
     // Hero / Landing
     hero: {
-      badge: "✨ Temukan Warisan Yogyakarta",
-      title: "Jelajahi Budaya",
-      titleHighlight: "Jogja",
+      badge: "✨ Membuka Budaya Yogyakarta Melalui Teknologi",
+      title: "Pin",
+      titleHighlight: "daya",
       subtitle:
-        "Pindai objek budaya, berinteraksi dengan model 3D, dan belajar dari ahli budaya AI. Pintu gerbangmu menuju kekayaan warisan Yogyakarta.",
+        "Pindai Budaya Yogyakarta — Pindai objek budaya, berinteraksi dengan model 3D, dan belajar dari ahli budaya AI.",
       scanBtn: "Pindai Objek",
       exploreBtn: "Jelajahi Budaya",
       statsObjects: "Objek Budaya",
@@ -127,7 +133,7 @@ export const locales = {
     scan: {
       title: "Pindai Objek Budaya",
       subtitle:
-        "Unggah gambar objek budaya untuk mengidentifikasi dan menjelajahi model 3D-nya",
+        "Unggah gambar atau gunakan kamera untuk mengidentifikasi objek budaya",
       uploadTab: "Unggah Gambar",
       cameraTab: "Gunakan Kamera",
       dropzone: "Seret & lepas gambar di sini, atau klik untuk memilih",
@@ -139,6 +145,14 @@ export const locales = {
       cameraPlaceholder:
         "Fitur kamera segera hadir. Silakan gunakan unggah gambar untuk saat ini.",
       tryUpload: "Coba Unggah Gambar",
+      cameraCapture: "Ambil & Pindai",
+      cameraStart: "Mulai Kamera",
+      cameraError: "Tidak bisa mengakses kamera. Izinkan akses kamera.",
+      redirecting: "Mengarahkan ke hasil...",
+      confidence: "Kepercayaan",
+      notFound:
+        "Tidak ditemukan objek budaya yang cocok. Coba gambar yang lebih jelas.",
+      lowConfidence: "Hasil mungkin kurang akurat. Coba pindai ulang?",
     },
     // Result Page
     result: {
@@ -158,14 +172,13 @@ export const locales = {
     chat: {
       placeholder: "Tanyakan tentang objek budaya ini...",
       send: "Kirim",
-      greeting:
-        "Halo! 👋 Saya ahli budaya Jogja Anda. Tanyakan apa saja tentang",
+      greeting: "Halo! 👋 Saya ahli budaya Pindaya. Tanyakan apa saja tentang",
       thinking: "Berpikir...",
     },
     // Explore Page
     explore: {
-      title: "Jelajahi Budaya Jogja",
-      subtitle: "Temukan keragaman warisan budaya Yogyakarta",
+      title: "Jelajahi Pindaya",
+      subtitle: "Membuka Budaya Yogyakarta Melalui Teknologi",
       all: "Semua",
       viewDetail: "Lihat Detail",
       noResults: "Tidak ada objek ditemukan dalam kategori ini.",
@@ -180,8 +193,7 @@ export const locales = {
     },
     // Footer
     footer: {
-      tagline:
-        "Temukan warisan budaya Yogyakarta melalui eksplorasi 3D interaktif.",
+      tagline: "Pindaya — Membuka Budaya Yogyakarta Melalui Teknologi.",
       quickLinks: "Tautan Cepat",
       contact: "Kontak",
       rights: "Hak cipta dilindungi.",

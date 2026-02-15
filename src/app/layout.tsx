@@ -3,9 +3,9 @@ import "./globals.css";
 import ClientLayout from "@/components/ClientLayout";
 
 export const metadata: Metadata = {
-  title: "Jogja Culture Explorer — Discover Yogyakarta's Heritage",
+  title: "Pindaya — Unlocking Yogyakarta's Cultural Through Technology",
   description:
-    "Scan cultural objects, interact with 3D models, and learn from an AI cultural expert. Your gateway to Yogyakarta's rich heritage.",
+    "Pindai Budaya Yogyakarta. Scan cultural objects, interact with 3D models, and learn from an AI cultural expert.",
   keywords: [
     "Yogyakarta",
     "Jogja",

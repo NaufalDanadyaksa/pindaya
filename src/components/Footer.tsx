@@ -19,7 +19,7 @@ export default function Footer() {
                 <Compass className="w-5 h-5 text-secondary" />
               </div>
               <span className="font-bold text-lg text-secondary">
-                Jogja<span className="text-accent">Culture</span>
+                Pin<span className="text-accent">daya</span>
               </span>
             </div>
             <p className="text-secondary/60 text-sm leading-relaxed">
@@ -66,7 +66,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-2 text-secondary/60 text-sm">
                 <Mail className="w-4 h-4" />
-                hello@jogjaculture.id
+                hello@pindaya.id
               </div>
             </div>
           </div>
@@ -74,7 +74,7 @@ export default function Footer() {
 
         <div className="mt-10 pt-6 border-t border-accent/10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-secondary/40 text-xs">
-            © 2026 JogjaCulture. {t.footer.rights}
+            © 2026 Pindaya. {t.footer.rights}
           </p>
           <p className="text-secondary/40 text-xs">{t.footer.madeWith}</p>
         </div>

@@ -48,7 +48,7 @@ export default function LandingPage() {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight text-secondary mb-6"
           >
-            {t.hero.title}{" "}
+            {t.hero.title}
             <span className="text-gradient">{t.hero.titleHighlight}</span>
           </motion.h1>
 

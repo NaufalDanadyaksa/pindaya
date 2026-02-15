@@ -24,7 +24,7 @@ export const culturalObjects: CulturalObject[] = [
     id: "batik-parang",
     name: { en: "Batik Parang", id: "Batik Parang" },
     category: "batik",
-    image: "/images/batik-parang.jpg",
+    image: "/images/batik-parang.png",
     description: {
       en: "Batik Parang is one of the oldest and most iconic batik motifs from Yogyakarta. The pattern features diagonal rows of interlocking S-shaped curves, symbolizing ocean waves crashing against rocks.",
       id: "Batik Parang adalah salah satu motif batik tertua dan paling ikonik dari Yogyakarta. Polanya menampilkan deretan diagonal kurva berbentuk S yang saling terhubung, melambangkan ombak laut yang menerjang batu karang.",
@@ -42,6 +42,7 @@ export const culturalObjects: CulturalObject[] = [
       id: "Dalam budaya Jawa, mengenakan Batik Parang menandakan kebangsawanan, kepemimpinan, dan kekuatan spiritual. Motif ini sering dikenakan saat upacara penting dan acara kerajaan di Kesultanan Yogyakarta.",
     },
     origin: { en: "Yogyakarta Sultanate", id: "Kesultanan Yogyakarta" },
+    modelUrl: "/models/batik_parang.glb",
     modelType: "torus",
     modelColor: "#7A3E3E",
   },
@@ -49,7 +50,7 @@ export const culturalObjects: CulturalObject[] = [
     id: "keris-pusaka",
     name: { en: "Keris Pusaka", id: "Keris Pusaka" },
     category: "weapon",
-    image: "/images/keris.jpg",
+    image: "/images/keris.png",
     description: {
       en: "The Keris is an asymmetrical dagger with a distinctive wavy blade. It is considered a sacred heirloom weapon in Javanese culture, believed to possess mystical powers and spiritual significance.",
       id: "Keris adalah belati asimetris dengan bilah bergelombang yang khas. Senjata ini dianggap sebagai pusaka sakral dalam budaya Jawa, dipercaya memiliki kekuatan mistis dan makna spiritual.",
@@ -75,7 +76,7 @@ export const culturalObjects: CulturalObject[] = [
     id: "blangkon",
     name: { en: "Blangkon", id: "Blangkon" },
     category: "clothing",
-    image: "/images/blangkon.jpg",
+    image: "/images/blangkon.png",
     description: {
       en: "Blangkon is a traditional Javanese headgear made from batik cloth, shaped to fit the head. It is an essential part of Javanese formal attire, particularly in Yogyakarta and Surakarta styles.",
       id: "Blangkon adalah penutup kepala tradisional Jawa yang terbuat dari kain batik, dibentuk agar pas di kepala. Ini merupakan bagian penting dari pakaian resmi Jawa, terutama dalam gaya Yogyakarta dan Surakarta.",
@@ -93,6 +94,7 @@ export const culturalObjects: CulturalObject[] = [
       id: "Mengenakan blangkon adalah tanda penghormatan terhadap tradisi Jawa. Di Yogyakarta, ini adalah pakaian wajib bagi pejabat istana pria dan dikenakan selama upacara tradisional, pernikahan, dan acara budaya.",
     },
     origin: { en: "Yogyakarta & Surakarta", id: "Yogyakarta & Surakarta" },
+    modelUrl: "/models/blangkon.glb",
     modelType: "dodecahedron",
     modelColor: "#C89B3C",
   },
@@ -100,7 +102,7 @@ export const culturalObjects: CulturalObject[] = [
     id: "gamelan",
     name: { en: "Gamelan", id: "Gamelan" },
     category: "instrument",
-    image: "/images/gamelan.jpg",
+    image: "/images/gamelan.png",
     description: {
       en: "Gamelan is a traditional ensemble of percussion instruments from Java and Bali, consisting of metallophones, xylophones, drums, and gongs. It produces a unique, ethereal sound that has captivated listeners for centuries.",
       id: "Gamelan adalah ansambel alat musik perkusi tradisional dari Jawa dan Bali, terdiri dari metalofon, xilofon, drum, dan gong. Menghasilkan suara yang unik dan memikat pendengar selama berabad-abad.",
@@ -125,7 +127,7 @@ export const culturalObjects: CulturalObject[] = [
     id: "wayang-kulit",
     name: { en: "Wayang Kulit", id: "Wayang Kulit" },
     category: "artifact",
-    image: "/images/wayang.jpg",
+    image: "/images/wayang.png",
     description: {
       en: "Wayang Kulit is a traditional shadow puppet made from intricately carved buffalo hide. The puppets depict characters from the Ramayana and Mahabharata epics, brought to life by a master puppeteer (dalang).",
       id: "Wayang Kulit adalah boneka bayangan tradisional yang dibuat dari kulit kerbau yang diukir dengan rumit. Boneka menggambarkan karakter dari epos Ramayana dan Mahabharata, dihidupkan oleh dalang.",
@@ -150,7 +152,7 @@ export const culturalObjects: CulturalObject[] = [
     id: "batik-kawung",
     name: { en: "Batik Kawung", id: "Batik Kawung" },
     category: "batik",
-    image: "/images/batik-kawung.jpg",
+    image: "/images/batik-kawung.png",
     description: {
       en: "Batik Kawung features a geometric pattern of intersecting circles that form a four-petaled flower or cross shape. It is one of the oldest batik motifs, found in ancient Javanese temple carvings.",
       id: "Batik Kawung menampilkan pola geometris lingkaran berpotongan yang membentuk bunga empat kelopak atau bentuk silang. Ini adalah salah satu motif batik tertua, ditemukan dalam ukiran candi Jawa kuno.",

@@ -31,7 +31,7 @@ export default function Navbar() {
               <Compass className="w-5 h-5 text-secondary" />
             </div>
             <span className="font-bold text-lg text-secondary hidden sm:block">
-              Jogja<span className="text-accent">Culture</span>
+              Pin<span className="text-accent">daya</span>
             </span>
           </Link>
 

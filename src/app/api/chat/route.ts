@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenAI } from "@google/genai";
 
 /* ── Mock responses (fallback) ── */
 function getMockResponse(
@@ -48,38 +48,12 @@ function getMockResponse(
     : `Great question about ${objectName}! ${objectData.description} Anything else you'd like to know?`;
 }
 
-/* ── Rate limit: simple in-memory tracker ── */
+/* ── Rate limit ── */
 let lastRequestTime = 0;
-const MIN_INTERVAL_MS = 5000; // 5s between requests (safe for free tier)
-
-/* ── Retry with exponential backoff ── */
-async function withRetry<T>(fn: () => Promise<T>, retries = 2): Promise<T> {
-  for (let i = 0; i <= retries; i++) {
-    try {
-      return await fn();
-    } catch (err: unknown) {
-      const isRateLimit =
-        err instanceof Error &&
-        (err.message.includes("429") ||
-          err.message.includes("Too Many Requests") ||
-          err.message.includes("RESOURCE_EXHAUSTED"));
-      if (!isRateLimit || i === retries) throw err;
-      await new Promise((r) => setTimeout(r, 3000 * (i + 1)));
-    }
-  }
-  throw new Error("Retry exhausted");
-}
-
-/* ── Singleton Gemini client ── */
-let genAIInstance: GoogleGenerativeAI | null = null;
-function getGenAI(apiKey: string) {
-  if (!genAIInstance) genAIInstance = new GoogleGenerativeAI(apiKey);
-  return genAIInstance;
-}
+const MIN_INTERVAL_MS = 5000;
 
 /* ── API Route ── */
 export async function POST(req: NextRequest) {
-  // Parse body first so we can use it in both success and error paths
   let message = "";
   let objectName = "";
   let objectData = {
@@ -124,37 +98,44 @@ export async function POST(req: NextRequest) {
     }
     lastRequestTime = Date.now();
 
-    const genAI = getGenAI(apiKey);
-    const model = genAI.getGenerativeModel({
-      model: "gemini-2.0-flash",
-      generationConfig: { maxOutputTokens: 250, temperature: 0.7 },
-    });
-
-    // Concise system instruction
+    // System instruction
     const systemInstruction =
       locale === "id"
         ? `Kamu ahli budaya Yogyakarta. Objek: "${objectName}". Info: ${objectData.description} Sejarah: ${objectData.history} Filosofi: ${objectData.philosophy} Makna: ${objectData.culturalMeaning}. Jawab Bahasa Indonesia, ramah, ringkas (2-3 kalimat).`
         : `You are a Yogyakarta cultural expert. Object: "${objectName}". Info: ${objectData.description} History: ${objectData.history} Philosophy: ${objectData.philosophy} Meaning: ${objectData.culturalMeaning}. Be friendly, concise (2-3 sentences).`;
 
-    // Build Gemini chat history
-    const chatHistory: { role: "user" | "model"; parts: { text: string }[] }[] =
-      [];
+    // Build contents for Gemini API
+    const contents: { role: string; parts: { text: string }[] }[] = [];
+
+    // Add chat history (last 6 messages)
     if (Array.isArray(history)) {
       for (const msg of history.slice(-6)) {
-        chatHistory.push({
+        contents.push({
           role: msg.role === "assistant" ? "model" : "user",
           parts: [{ text: msg.content }],
         });
       }
     }
 
-    const chat = model.startChat({ history: chatHistory });
+    // Add current message (prepend system instruction on first message)
     const prompt =
-      chatHistory.length === 0 ? `${systemInstruction}\n\n${message}` : message;
+      contents.length === 0 ? `${systemInstruction}\n\n${message}` : message;
+    contents.push({ role: "user", parts: [{ text: prompt }] });
 
-    const result = await withRetry(() => chat.sendMessage(prompt));
+    // New official SDK (best practice from quickstart)
+    const ai = new GoogleGenAI({ apiKey });
+
+    const response = await ai.models.generateContent({
+      model: "gemini-2.0-flash",
+      contents,
+      config: {
+        maxOutputTokens: 250,
+        temperature: 0.7,
+      },
+    });
+
     const reply =
-      result.response.text() ||
+      response.text ||
       (locale === "id" ? "Maaf, coba lagi." : "Sorry, please try again.");
 
     return NextResponse.json({ reply, mode: "gemini" });
@@ -164,7 +145,7 @@ export async function POST(req: NextRequest) {
       error instanceof Error ? error.message : error,
     );
 
-    // Graceful fallback to mock - never return 500 to user
+    // Graceful fallback to mock
     const fallback = getMockResponse(message, objectName, objectData, locale);
     return NextResponse.json({ reply: fallback, mode: "mock" });
   }

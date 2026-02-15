@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import Image from "next/image";
 import { Eye } from "lucide-react";
 import { CulturalObject } from "@/data/culturalObjects";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -23,33 +24,18 @@ export default function ObjectCard({
     >
       <Link href={`/result/${object.id}`}>
         <div className="group relative rounded-2xl overflow-hidden glass hover-glow cursor-pointer h-full">
-          {/* Image placeholder with gradient */}
+          {/* Thumbnail image */}
           <div className="relative h-48 overflow-hidden">
-            <div
-              className="absolute inset-0"
-              style={{
-                background: `linear-gradient(135deg, ${object.modelColor}44 0%, ${object.modelColor}22 50%, rgba(26,26,46,0.8) 100%)`,
-              }}
+            <Image
+              src={object.image}
+              alt={object.name[locale]}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-110"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
-            {/* Decorative pattern */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="w-24 h-24 rounded-full border-2 border-dashed opacity-20"
-                style={{ borderColor: object.modelColor }}
-              />
-              <motion.div
-                animate={{ rotate: -360 }}
-                transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                className="absolute w-16 h-16 rounded-full border border-dashed opacity-30"
-                style={{ borderColor: object.modelColor }}
-              />
-              <div
-                className="absolute w-8 h-8 rounded-full opacity-40"
-                style={{ backgroundColor: object.modelColor }}
-              />
-            </div>
+            {/* Dark overlay for text readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/30 to-transparent" />
+
             {/* Category badge */}
             <div className="absolute top-3 left-3">
               <span className="px-2.5 py-1 rounded-full text-[10px] font-semibold glass text-accent uppercase tracking-wider">
